@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Contoh AJAX dengan jQuery</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#load-data-btn").click(function() {
+				$.ajax({
+					url: "https://reqres.in/api/users",
+					method: "GET",
+					success: function(response) {
+						// Memanggil fungsi untuk menampilkan data ke tabel
+						displayData(response.data);
+					},
+					error: function() {
+						alert("Gagal memuat data");
+					}
+				});
+			});
+
+			function displayData(users) {
+				// Membuat variabel untuk menyimpan HTML tabel
+				var tableHtml = "<tr><th>ID</th><th>Email</th><th>Nama Depan</th><th>Nama Belakang</th><th>Gambar</th></tr>";
+				// Looping data pengguna dan menambahkan baris baru ke tabel
+				$.each(users, function(index, user) {
+					tableHtml += "<tr><td>" + user.id + "</td><td>" + user.email + "</td><td>" + user.first_name + "</td><td>" + user.last_name + "</td><td><img src='" + user.avatar + "'></td></tr>";
+				});
+				// Menambahkan HTML tabel ke elemen dengan ID "user-table"
+				$("#user-table").html(tableHtml);
+			}
+		});
+	</script>
+</head>
+<body>
+	<h1>Contoh AJAX dengan jQuery</h1>
+	<p>Klik tombol di bawah ini untuk memuat data:</p>
+	<button id="load-data-btn">Load Data</button>
+	<table id="user-table" style="border: 1px solid black;"></table>
+</body>
+</html>
